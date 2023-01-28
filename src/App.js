@@ -36,9 +36,10 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route element={<WithoutNavRoutes />}>
-              <Route element={<ProtectedRoutes />}>
+              {/* <Route element={<ProtectedRoutes />}>
                 <Route path="/login" element={<Login />} />
-              </Route>
+              </Route> */}
+              <Route path="/login" element={<Login />} />
 
               <Route path='/dashboard/*' element={user ? <DashboardRoutes /> : <Navigate to='/login' />} />
               <Route path="/add" element={user ? <Add /> : <Navigate to='/' />} />
