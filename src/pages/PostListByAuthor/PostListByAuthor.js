@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-
+import { baseURL } from '../../config'
 import { PostListStyle } from '../PostList/PostListStyled'
 import { PostCard } from '../../components/PostCard/PostCard'
 
@@ -32,7 +32,7 @@ export const PostListByAuthor = () => {
     }
 
     const fetchPostByCat = () => {
-      fetch(`/api/posts?author=${author}&page=${page}&limit=${limit}`, { signal })
+      fetch(`${baseURL}/api/posts?author=${author}&page=${page}&limit=${limit}`, { signal })
         .then(res => {
           if (!res.ok) {
             throw Error('could not fetch the data for that resource')
