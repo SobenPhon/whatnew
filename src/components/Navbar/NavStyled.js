@@ -453,8 +453,7 @@ export const Navbar = styled.header`
 
       .search-icon {
         margin-left: 0;
-        margin-right: 15px;
-        /* margin-right: 10px; */
+        /* margin-right: 15px; */
       }
 
       .user-login {
@@ -462,7 +461,7 @@ export const Navbar = styled.header`
         margin-left: 0;
       }
 
-      .dashboard {
+      .dashboard, .btn-login {
         margin-right: 10px;
       }
     }
