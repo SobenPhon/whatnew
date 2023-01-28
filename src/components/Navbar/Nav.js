@@ -123,6 +123,10 @@ export const Nav = () => {
             </div>
           )}
 
+          {!user && (
+            <Link to='/login' className='btn-login'>ចូលប្រើ</Link>
+          )}
+
           <button className='btn-hambergur' onClick={showNavbar}><FaBars /></button>
         </div>
 

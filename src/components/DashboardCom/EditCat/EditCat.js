@@ -3,6 +3,7 @@ import { EditCatStyle } from "./EditCat.styled"
 import { useAuthContext } from "../../../hook/useAuthContext"
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { MsgModal } from "../../MsgModal/MsgModal"
+import { baseURL } from "../../../config"
 
 export const EditCat = ({ data, handleCloseEdit }) => {
   const { user } = useAuthContext()
@@ -13,7 +14,7 @@ export const EditCat = ({ data, handleCloseEdit }) => {
 
   const editMutation = useMutation({
     mutationFn: async (editCat) => {
-      const response = await fetch(`/api/categories/${data._id}`, {
+      const response = await fetch(`${baseURL}/api/categories/${data._id}`, {
         method: "PATCH",
         body: JSON.stringify(editCat),
         headers: {

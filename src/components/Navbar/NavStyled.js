@@ -127,7 +127,18 @@ export const Navbar = styled.header`
       }
     }
 
-    /* User logn */
+    .btn-login {
+      border-left: 1px solid ${({ theme }) => theme.color.secondary};
+      margin-left: 10px;
+      padding-left: 10px;
+
+      text-decoration: none;
+      font-size: 18px;
+      font-family: 'Bayon', cursive;
+      color: ${({ theme }) => theme.color.text};
+    }
+
+    /* User login */
     .user-login {
       color: #fff;
       white-space: nowrap;
