@@ -1,1 +1,1 @@
-export const baseURL = 'https://whatnew.onrender.com'
+export const baseURL = 'https://whatnew-api.onrender.com'
