@@ -1,7 +1,6 @@
 // import { useState, useEffect } from "react";
 import { Routes, Route, Navigate, BrowserRouter } from 'react-router-dom'
 import { useAuthContext } from './hook/useAuthContext'
-import useAuth from './hook/useAuth'
 
 import { GlobalStyled } from './GlobalStyled'
 import { ThemeProvider } from 'styled-components'
@@ -16,7 +15,6 @@ import { SinglePost } from './pages/SinglePost/SinglePost';
 import { Add } from './pages/Add/Add';
 import { Edit } from "./pages/Edit/Edit";
 import { NotFound404 } from './components/NotFound404/NotFound404';
-import Signup from "./pages/Signup/Signup";
 import Login from './pages/Login/Login'
 import ProtectedRoutes from './utils/ProtectedRoutes'
 import { DashboardRoutes } from './Routes/DashboardRoutes'
@@ -35,32 +33,33 @@ function App() {
       <ThemeProvider theme={themeMode === 'light' ? lightTheme : darkTheme}>
         <GlobalStyled />
 
-        <Routes>
-          <Route element={<WithoutNavRoutes />}>
-            <Route element={<ProtectedRoutes />}>
-              <Route path="/login" element={<Login />} />
+        <BrowserRouter>
+          <Routes>
+            <Route element={<WithoutNavRoutes />}>
+              <Route element={<ProtectedRoutes />}>
+                <Route path="/login" element={<Login />} />
+              </Route>
+
+              <Route path='/dashboard/*' element={user ? <DashboardRoutes /> : <Navigate to='/login' />} />
+              <Route path="/add" element={user ? <Add /> : <Navigate to='/' />} />
+              <Route path="/edit/:id" element={user ? <Edit /> : <Navigate to='/' />} />
             </Route>
 
-            <Route path='/dashboard/*' element={user ? <DashboardRoutes /> : <Navigate to='/login' />} />
-            <Route path="/add" element={user ? <Add /> : <Navigate to='/' />} />
-            <Route path="/edit/:id" element={user ? <Edit /> : <Navigate to='/' />} />
-          </Route>
-
-          <Route element={<WithNavRoutes />}>
-            <Route path='/' element={<Home />} />
-            <Route path="/home" element={<Home />} />
-            <Route path="/author/:author" element={<PostListByAuthor />} />
-            <Route path='/posts'>
-              <Route index element={<PostList />} />
-              <Route path=":category" element={<PostListByCat />}
-              />
-              <Route path=":category/:id" element={<SinglePost />} />
-              <Route path="results" element={<SearchResult />} />
+            <Route element={<WithNavRoutes />}>
+              <Route path='/' element={<Home />} />
+              <Route path="/home" element={<Home />} />
+              <Route path="/author/:author" element={<PostListByAuthor />} />
+              <Route path='/posts'>
+                <Route index element={<PostList />} />
+                <Route path=":category" element={<PostListByCat />}
+                />
+                <Route path=":category/:id" element={<SinglePost />} />
+                <Route path="results" element={<SearchResult />} />
+              </Route>
+              <Route path="*" element={<NotFound404 />} />
             </Route>
-            <Route path="*" element={<NotFound404 />} />
-          </Route>
-        </Routes>
-
+          </Routes>
+        </BrowserRouter>
       </ThemeProvider>
     </ThemeProvider >
   );

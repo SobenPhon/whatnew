@@ -21,9 +21,9 @@ root.render(
         <ThemeContextProvider >
           <DashPostContextProvider>
             <PostContextProvider>
-              <BrowserRouter>
-                <App />
-              </BrowserRouter>
+              {/* <BrowserRouter> */}
+              <App />
+              {/* </BrowserRouter> */}
             </PostContextProvider>
           </DashPostContextProvider>
         </ThemeContextProvider>
