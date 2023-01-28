@@ -136,6 +136,7 @@ export const Navbar = styled.header`
       font-size: 18px;
       font-family: 'Bayon', cursive;
       color: ${({ theme }) => theme.color.text};
+      white-space: nowrap;
     }
 
     /* User login */
