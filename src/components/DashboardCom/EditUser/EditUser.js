@@ -1,13 +1,15 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { EditUserStyle } from "./EditUser.styled"
 import { useAuthContext } from "../../../hook/useAuthContext"
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { dehydrate, useMutation, useQueryClient } from '@tanstack/react-query'
 import { MsgModal } from "../../MsgModal/MsgModal"
 
 import { storage } from "../../../firebase"
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
 import { useFetchAsset } from '../../../hook/useFetchAsset'
 import { baseURL } from "../../../config"
+import { VscEye } from 'react-icons/vsc'
+import { VscEyeClosed } from 'react-icons/vsc'
 
 export const EditUser = ({ data, handleCloseEdit }) => {
   const { user } = useAuthContext()
@@ -17,7 +19,7 @@ export const EditUser = ({ data, handleCloseEdit }) => {
   const [lastName, setLastName] = useState(data?.lastName)
   const [username, setUsername] = useState(data?.username)
   const [email, setEmail] = useState(data?.email)
-  const [password, setPassword] = useState(data?.password)
+  const [password, setPassword] = useState('')
   const [role, setRole] = useState(data?.role.toLowerCase())
   const [profile, setProfile] = useState(data?.profile)
   const [error, setError] = useState(null)
@@ -27,8 +29,36 @@ export const EditUser = ({ data, handleCloseEdit }) => {
   const [imgUrl, setImgUrl] = useState('')
   const [percent, setPercent] = useState(null)
   const [uploading, setUploading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
 
   const { data: roles, isLoading: isRolesLoading, error: rolesError } = useFetchAsset('/api/roles', '')
+
+  useEffect(() => {
+    // send decrypt request
+    const dcryptPassword = async () => {
+      const response = await fetch(`${baseURL}/api/dcryptpassword`, {
+        method: "POST",
+        body: JSON.stringify({ password: data.password }),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${user?.token}`
+        }
+      })
+
+      const json = await response.json()
+
+      if (!response.ok) {
+        setError(json.error)
+        console.log('json error: ', json.error)
+      }
+
+      if (response.ok) {
+        setError(null)
+        setPassword(json)
+      }
+    }
+    dcryptPassword()
+  }, [data.password])
 
   const loadFileandUpload = (e) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -118,7 +148,7 @@ export const EditUser = ({ data, handleCloseEdit }) => {
 
           <form className="user-form">
             <div className="upload-area form-group">
-              <label className="imgLabel" htmlFor="">រូបភាព</label>
+              <label className="imgLabel input-label" htmlFor="">រូបភាព</label>
               <div className="upload-icon">
                 <input
                   type="file"
@@ -155,7 +185,7 @@ export const EditUser = ({ data, handleCloseEdit }) => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="firstName">ត្រកូល</label>
+              <label htmlFor="firstName" className="input-label">ត្រកូល</label>
               <input type="text"
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
@@ -163,7 +193,7 @@ export const EditUser = ({ data, handleCloseEdit }) => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="lastName">នាម</label>
+              <label htmlFor="lastName" className="input-label">នាម</label>
               <input
                 type="text"
                 value={lastName}
@@ -172,7 +202,7 @@ export const EditUser = ({ data, handleCloseEdit }) => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="username">ឈ្មោះប្រើប្រាស់</label>
+              <label htmlFor="username" className="input-label">ឈ្មោះប្រើប្រាស់</label>
               <input
                 type="text"
                 value={username}
@@ -183,7 +213,7 @@ export const EditUser = ({ data, handleCloseEdit }) => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="email">អ៉ីម៉ែល</label>
+              <label htmlFor="email" className="input-label">អ៉ីម៉ែល</label>
               <input
                 type="email"
                 value={email}
@@ -194,18 +224,21 @@ export const EditUser = ({ data, handleCloseEdit }) => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="password">ពាក្យសម្ងាត់</label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="form-control"
-                id="password"
-                autoComplete="off" />
+              <label htmlFor="password" className="input-label">ពាក្យសម្ងាត់</label>
+              <div className="password-area">
+                <input
+                  type={!showPassword ? "password" : "text"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="form-control"
+                  id="password"
+                  autoComplete="off" />
+                <div className="btn-show-password" onClick={() => setShowPassword(!showPassword)}>{!showPassword ? <VscEye /> : <VscEyeClosed />}</div>
+              </div>
             </div>
 
             <div className="form-group">
-              <label htmlFor="role">តួនាទី</label>
+              <label htmlFor="role" className="input-label">តួនាទី</label>
               <select value={role} className="form-control user-roles" onChange={(e) => {
                 setRole(e.target.value)
               }}>

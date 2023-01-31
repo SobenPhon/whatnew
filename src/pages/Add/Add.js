@@ -4,18 +4,14 @@ import { usePostContext } from '../../hook/usePostContext'
 import { v4 } from 'uuid'
 import { useAuthContext } from '../../hook/useAuthContext'
 import useAuth from '../../hook/useAuth'
-
 import { baseURL } from '../../config'
-
 import { FaCloudUploadAlt } from 'react-icons/fa'
 import { MdDone } from 'react-icons/md'
 import { MdClear } from 'react-icons/md'
 import { CgEnter } from 'react-icons/cg'
 import { RiDraftFill } from 'react-icons/ri'
-
 import { TextEditor } from '../../components/TextEditor/TextEditor'
 import { Markup } from 'interweave'
-
 import { storage } from '../../firebase'
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
 import { BtnBack } from '../../components/BtnBack/BtnBack'
@@ -200,6 +196,11 @@ export const Add = () => {
         setMessage('Post successfully added')
         setAlertVisible(true)
         dispatch({ type: 'CREATE_POSTS', payload: data })
+
+        let tempCat = categories.map(cat => {
+          return { ...cat, isChecked: false }
+        })
+        setCategories(tempCat)
 
         setTimeout(() => {
           setAlertVisible(false)

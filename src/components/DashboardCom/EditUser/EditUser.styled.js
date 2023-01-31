@@ -15,27 +15,29 @@ export const EditUserStyle = styled.div`
   z-index: 5;
 
   .form-group {
-    display: flex;
-    align-items: center;
-    gap: 10px;
     font-size: 18px;
-    width: 100%;
     margin-bottom: 15px;
-  }
 
-  .form-control {
-    width: 100%;
-    padding: 5px 10px;
-    font-size: 18px;
-    border: none;
-    background-color: ${props => props.theme.background};
-    color: ${props => props.theme.textColor};
-    border-radius: 5px;
-    height: 40px;
-    box-shadow: ${({ theme }) => theme.boxShadow.bs2};
+    .input-label {
+      white-space: nowrap;
+      display: inline-block;
+      width: 37%;
+    }
 
-    &:focus {
-      outline: none;
+    .form-control {
+      width: 63%;
+      padding: 5px 10px;
+      font-size: 18px;
+      border: none;
+      background-color: ${props => props.theme.background};
+      color: ${props => props.theme.textColor};
+      border-radius: 5px;
+      height: 40px;
+      box-shadow: ${({ theme }) => theme.boxShadow.bs2};
+
+      &:focus {
+        outline: none;
+      }
     }
   }
 
@@ -54,24 +56,14 @@ export const EditUserStyle = styled.div`
     }
 
     .user-form {
-      .form-group {
-        label {
-          width: 150px;
-          display: inline-block;
-          white-space: nowrap;
-        }
-      }
-
       .upload-area {
         display: flex;
 
-        .imgLabel {
-          width: 101.22px;
-        }
-
         .upload-icon {
-          display: flex;
+          display: inline-flex;
+          align-items: center;
           gap: 15px;
+          /* width: 63%; */
 
           .imgInput {
             display: none;
@@ -85,16 +77,15 @@ export const EditUserStyle = styled.div`
 
             .profile-preview {
               border-radius: 15px;
-              width: 100px;
-              height: 100px;
+              width: 80px;
+              height: 80px;
               object-fit: cover;
             }
           }
 
           .btn-change-profile {
             width: 100%;
-            height: fit-content;
-            padding: 2px 5px;
+            padding: 10px 5px;
             margin-right: 0;
             border-radius: 5px;
             background: transparent;
@@ -103,13 +94,34 @@ export const EditUserStyle = styled.div`
             color: ${props => props.theme.textColor};
             background-color: ${props => props.theme.background};
             border-bottom: 2px solid ${({ theme }) => theme.color.secondary};
-            font-size: 17px;
+            font-size: 16.5px;
             cursor: pointer;
           }
 
           .upload-state {
             text-align: center;
             margin-top: 5px;
+          }
+        }
+      }
+
+      .password-area {
+        display: inline-flex;
+        align-items: center;
+        position: relative;
+        width: 63%;
+
+        .form-control {
+          width: 100%;
+        }
+
+        .btn-show-password {
+          position: absolute;
+          right: 10px;
+          cursor: pointer;
+
+          svg {
+            display: flex;
           }
         }
       }

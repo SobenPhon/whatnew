@@ -7,14 +7,21 @@ import { MdCategory } from 'react-icons/md'
 import { HiUsers } from 'react-icons/hi'
 
 import { useAuthContext } from '../../../hook/useAuthContext'
+import useAuth from '../../../hook/useAuth'
 import { useQuery } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 import { useLogout } from '../../../hook/useLogout'
 import { DashTable } from '../../../components/DashboardCom/DashTable/DashTable'
+import { useEffect } from 'react'
+import { useState } from 'react'
+import { useDashPostContext } from '../../../hook/useDashPostContext'
 
 export const DashOverview = () => {
   const { user } = useAuthContext()
-  const { posts, postsCount, isLoading, error } = useFetch("", "", "", "")
+  const { isAdmin, isEditor } = useAuth()
+  const [author, setAuthor] = useState("")
+  const { postsCount, isLoading, error } = useFetch("", "", author, "")
+  const { posts } = useDashPostContext()
   const navigate = useNavigate()
   const { logout } = useLogout()
 
@@ -61,6 +68,16 @@ export const DashOverview = () => {
     queryFn: getUser
   })
 
+  useEffect(() => {
+    if (!isAdmin && !isEditor) {
+      users?.forEach(u => {
+        if (u.username === user.username) {
+          setAuthor(u.username)
+        }
+      })
+    }
+  }, [isAdmin, isEditor, user.username])
+
   return (
     <DashOverviewStyle>
       <div className="overview-main">
@@ -93,8 +110,8 @@ export const DashOverview = () => {
       <div className="overview-sidebar">
         <div className="widget active-user">
           <h2 className='widget-title'>អ្នកកំពុងប្រើប្រាស់</h2>
-          {users?.map(u => (
-            <div key={u._id} className='user-list'>
+          {users?.map((u, index) => (
+            <div key={index} className='user-list'>
               <p className='username'>{u.username}</p>
               <p className='user-role'>{u.role}</p>
               <img className='user-img' src={u.profile} alt={u.username} />

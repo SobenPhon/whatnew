@@ -5,11 +5,14 @@ import { useLogin } from "../../hook/useLogin"
 import { TbExternalLink } from 'react-icons/tb'
 import { HiOutlineMail } from 'react-icons/hi'
 import { RiLockPasswordLine } from 'react-icons/ri'
+import { VscEye } from 'react-icons/vsc'
+import { VscEyeClosed } from 'react-icons/vsc'
 
 export default function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const { login, error, isLoading, message } = useLogin()
+  const [showPassword, setShowPassword] = useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -39,13 +42,17 @@ export default function Login() {
 
         <div className="form-group">
           <label htmlFor="password"><RiLockPasswordLine /> ពាក្យសម្ងាត់</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="form-control"
-            id="password"
-            autoComplete="current-password" />
+          <div className="password-area">
+            <input
+              type={!showPassword ? "password" : "text"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="form-control"
+              id="password"
+              autoComplete="current-password"
+            />
+            <div className="btn-show-password" onClick={() => setShowPassword(!showPassword)}>{!showPassword ? <VscEye /> : <VscEyeClosed />}</div>
+          </div>
         </div>
 
         <div className="account">

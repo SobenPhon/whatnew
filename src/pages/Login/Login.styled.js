@@ -53,6 +53,7 @@ export const LoginStyle = styled.section`
   }
 
   .form-control {
+    width: 100%;
     padding: 5px 10px;
     font-size: 18px;
     border: none;
@@ -73,87 +74,22 @@ export const LoginStyle = styled.section`
     color: ${({ theme }) => theme.color.error};
   }
 
-  .name {
-    display: flex;
-    gap: 20px;
-    
-    input {
-      width: 100%;
-    }
-
-    @media (max-width: 400px) {
-      gap: 0;
-      flex-direction: column;
-    }
-  }
-
-  .profile-area {
+  .password-area {
     display: flex;
     align-items: center;
-    gap: 20px;
-    height: 70px;
-    margin-top: 10px;
-    margin-bottom: 20px;
+    position: relative;
 
-    .imgInput {
-      display: none;
-    }
-
-    .upload-icon {
+    .btn-show-password {
+      position: absolute;
+      right: 10px;
       cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      white-space: nowrap;
-      padding: 5px;
-      height: 100%;
-      border-radius: 10px;
-      margin: 10px 0;
-      background-color: ${props => props.theme.card};
-      border: 1px solid ${props => props.theme.borderColor};
-      position: relative;
+      /* color: ${({ theme }) => theme.color.primary}; */
 
-      .progress-bar {
-        position: absolute;
-        height: 10%;
-        left: 0;
-        bottom: 0;
-        z-index: 0;
-        border-radius: 0 0 10px 10px;
-        background-color: green;
-      }
-
-      &:hover svg {
-        transform: scale(1.2);
-      }
-
-      p {
+      svg {
         display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 5px;
-        color: ${props => props.theme.textColor};
-        z-index: 1;
-
-        svg {
-          color: ${({ theme }) => theme.color.secondary};
-          width: 25px;
-          height: 25px;
-          transition: transform .2s ease-out;
-        }
+        margin-bottom: 0;
       }
     }
-
-    .file-info {
-      border: 1px solid ${props => props.theme.borderColor};
-      padding: 5px;
-      border-radius: 10px;
-      height: 100%;
-      width: 100%;
-      word-break: break-all;
-    }
-
   }
 
   .login-switch {
