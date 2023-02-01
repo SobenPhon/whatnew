@@ -17,10 +17,13 @@ import { Navbar } from './NavStyled'
 import { useThemeContext } from '../../hook/useThemeContext'
 import { useFetch } from '../../hook/useFetch'
 import { useNavigate } from 'react-router-dom'
+import { Skeleton } from '../Skeleton/Skeleton'
 
 export const Nav = () => {
   const { themeMode, toggleTheme } = useThemeContext()
-  const { error } = usePostContext()
+  // const { error } = usePostContext()
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState(null)
   const [categories, setCategories] = useState([])
 
   const navRef = useRef()
@@ -41,10 +44,12 @@ export const Nav = () => {
 
       if (response.ok) {
         setCategories(data)
+        setIsLoading(false)
       }
 
       if (!response.ok) {
-        console.log('something wrong')
+        setError("Something went wrong!")
+        console.log('something went wrong!')
       }
     }
     fetchCategories()
@@ -73,6 +78,8 @@ export const Nav = () => {
     showSearchBox()
   }
 
+  console.log(isLoading)
+
   return (
     <>
       <Navbar>
@@ -84,24 +91,28 @@ export const Nav = () => {
           </Link>
 
           <nav className="menu-list" ref={navRef} >
-            <Link onClick={() => {
-              setActive('ព័ត៌មាន')
-              showNavbar()
-            }} to='/posts' className={`menu-item ${(active === 'ព័ត៌មាន') && 'active'}`}>ព័ត៌មាន</Link>
+            {!isLoading ? (
+              <>
+                <Link onClick={() => {
+                  setActive('ព័ត៌មាន')
+                  showNavbar()
+                }} to='/posts' className={`menu-item ${(active === 'ព័ត៌មាន') && 'active'}`}>ព័ត៌មាន</Link>
 
-            {!error && (
-              categories && categories.map(cat => (
-                <NavLink
-                  onClick={() => {
-                    setActive(cat)
-                    showNavbar()
-                  }}
-                  className={`menu-item ${(active === cat) && 'active'}`}
-                  key={cat._id}
-                  to={`posts/${cat.catName}`}>
-                  {cat.catName}
-                </NavLink>
-              ))
+                {categories && categories.map(cat => (
+                  <NavLink
+                    onClick={() => {
+                      setActive(cat)
+                      showNavbar()
+                    }}
+                    className={`menu-item ${(active === cat) && 'active'}`}
+                    key={cat._id}
+                    to={`posts/${cat.catName}`}>
+                    {cat.catName}
+                  </NavLink>
+                ))}
+              </>
+            ) : (
+              <Skeleton type="nav" />
             )}
 
             <div className='action-btn'>
@@ -130,9 +141,6 @@ export const Nav = () => {
           <button className='btn-hambergur' onClick={showNavbar}><FaBars /></button>
         </div>
 
-        {/* Search bar */}
-        {/* ${searchState ? 'hidden' : null} */}
-
         <div className={`search-section`} ref={searchRef}>
           <div className="search-bar">
             <input
@@ -142,7 +150,6 @@ export const Nav = () => {
               onChange={(e) => setQuery(e.target.value)}
             />
 
-            {/* <Link onClick={handleSearch} to={`/posts/results?q=${query}`} className='btn-search'><ImSearch /></Link> */}
             <button onClick={handleSearch} className='btn-search'><ImSearch /></button>
 
             <button
@@ -156,7 +163,6 @@ export const Nav = () => {
             <div className="search-result">
               {posts.map(p => (
                 <Link onClick={showSearchBox} to={`/posts/${p.category[0]}/${p._id}`} className='search-item' key={p._id}>
-                  {/* <img src={p?.image} alt="" className="result-img" /> */}
                   <div className="result-content">
                     <h2 className='result-title'>{p.title}</h2>
                     <p className="result-date">{p.createdAt}</p>
@@ -164,8 +170,6 @@ export const Nav = () => {
                 </Link>
               ))}
               {posts.length === 0 && <div className='no-result'>មិនមានអ្វីដែលអ្នកស្វែងរក!</div>}
-              {/* {emptyQuery && <div>{emptyQuery}</div>} */}
-              {/* {console.log(emptyQuery)} */}
             </div>
           )}
         </div>

@@ -11,7 +11,8 @@ export const theme = {
     warningBg: '#FFF9E9',
     card: '#fff',
     info: '#127FBF',
-    infoBg: '#E6FAFC'
+    infoBg: '#E6FAFC',
+    skeletonColor: '#323337'
   },
   font: {
     enKh: '"Barlow Semi Condensed", sans-serif, "Battambang", cursive'

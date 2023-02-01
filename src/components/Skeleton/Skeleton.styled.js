@@ -251,3 +251,22 @@ export const ShowcaseSkStyle = styled.div`
     }
   }
 `
+
+export const NavSkStyle = styled.div`
+  animation: skeleton 1s ease-out infinite alternate;
+  display: flex;
+  gap: 15px;
+
+  .menuSk {
+    width: 80px;
+    height: 30px;
+    border-radius: 5px;
+    background-color: ${({ theme }) => theme.color.skeletonColor};
+  }
+
+  @keyframes skeleton {
+    to {
+      opacity: .5;
+    }
+  }
+`

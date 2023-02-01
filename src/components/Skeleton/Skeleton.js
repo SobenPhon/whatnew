@@ -2,11 +2,22 @@ import {
   SkeletonStyle,
   SinglePostSkStyle,
   SignupSkStyle,
-  ShowcaseSkStyle
+  ShowcaseSkStyle,
+  NavSkStyle
 } from "./Skeleton.styled"
 
 export const Skeleton = ({ type }) => {
   const COUNTER = 10
+
+  const NavSkeleton = () => (
+    <NavSkStyle>
+      <div className="menuSk"></div>
+      <div className="menuSk"></div>
+      <div className="menuSk"></div>
+      <div className="menuSk"></div>
+      <div className="menuSk"></div>
+    </NavSkStyle>
+  )
 
   const FeedSkeleton = () => (
     <SkeletonStyle className="postSk">
@@ -71,4 +82,6 @@ export const Skeleton = ({ type }) => {
   if (type === 'signup') return <SignupSkeleton />
 
   if (type === 'showcase') return <ShowcaseSkeleton />
+
+  if (type === 'nav') return <NavSkeleton />
 }
