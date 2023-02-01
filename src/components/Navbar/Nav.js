@@ -49,7 +49,7 @@ export const Nav = () => {
 
       if (!response.ok) {
         setError("Something went wrong!")
-        console.log('something went wrong!')
+        console.error('something went wrong!')
       }
     }
     fetchCategories()
@@ -77,8 +77,6 @@ export const Nav = () => {
     navigate(`/posts/results?q=${query}`)
     showSearchBox()
   }
-
-  console.log(isLoading)
 
   return (
     <>
